@@ -1,0 +1,124 @@
+Sending a message on the Telnyx platform
+
+In this tutorial, you’re going to learn how to send SMS and MMS messages using the Telnyx v2 API and the curl command. First thing's first - make sure you have signed up for your Telnyx account.
+
+Portal setup
+Follow the setup guide to configure your Portal for sending and receiving messages.
+
+Development environment setup
+Check out the Development Environment Setup guide to acquire your API Key.
+You can paste the below snippets into your Terminal on Mac and Linux computers. Windows users should install bash on Windows.
+
+Send an SMS or MMS with Telnyx
+Follow the steps below to send SMS and MMS messages.
+
+1. Using the SMS or MMS examples below, write a curl command that will submit an outbound message request. Include your API Key in the Authorization request header, and add the source (from) and destination (to) phone number, and the message’s content (text) into the payload. Optionally, your payload may include a webhook_url or webhook_failover_url (or both).
+
+note  
+* Don’t forget to update YOUR_API_KEY in the below commands.  
+* Make sure that the source (from) is eligible to send messages towards the destination (to) phone number.  
+* If you are sending a message internationally from an A2P enabled longcode, we will automatically fail over to alphanumeric routes using a generic Sender ID.  
+* If sending an alphanumeric message, make sure to specify the messaging_profile_id parameter in the body of the request.
+
+### Send SMS
+curl -X POST \  
+  --header "Content-Type: application/json" \  
+  --header "Authorization: Bearer YOUR_API_KEY" \  
+  --data '{  
+    "from": "+13115552368",  
+    "to": "+13115552367",  
+    "text": "Hello, world!"  
+  }' \  
+  https://api.telnyx.com/v2/messages
+
+### Example response
+{  
+  "data": {  
+    "record_type": "message",  
+    "direction": "outbound",  
+    "id": "b0c7e8cb-6227-4c74-9f32-c7f80c30934b",  
+    "type": "SMS",  
+    "organization_id": "a9b37e61-32bc-4a03-bf90-080c3b55db6f",  
+    "messaging_profile_id": "16fd2706-8baf-433b-82eb-8c7fada847da",  
+    "from": {  
+      "phone_number": "+19842550944",  
+      "carrier": "Telnyx",  
+      "line_type": "Wireless"  
+    },  
+    "to": [  
+      {  
+        "phone_number": "+13115552367",  
+        "status": "queued",  
+        "carrier": "SOME CARRIER",  
+        "line_type": "Wireless"  
+      }  
+    ],  
+    "cc": [],  
+    "text": "Hello, world!",  
+    "media": [],  
+    "webhook_url": "https://www.example.com/hooks",  
+    "webhook_failover_url": "https://www.example.com/callbacks",  
+    "encoding": "GSM-7",  
+    "parts": 1,  
+    "tags": [],  
+    "cost": {  
+      "amount": 0.0051,  
+      "currency": "USD"  
+    },  
+    "cost_breakdown": {  
+      "carrier_fee": {  
+        "amount": "0.00305",  
+        "currency": "USD"  
+      },  
+      "rate": {  
+        "amount": "0.00205",  
+        "currency": "USD"  
+      }  
+    },  
+    "tcr_campaign_id": "TCPA3X7",  
+    "tcr_campaign_billable": true,  
+    "tcr_campaign_registered": "REGISTERED",  
+    "received_at": "2019-01-23T18:10:02.574Z",  
+    "sent_at": null,  
+    "completed_at": null,  
+    "valid_until": "2019-01-23T19:10:02.574Z",  
+    "errors": []  
+  }  
+}
+
+note  
+* Make sure you're using the full +E.164 formatted number for your `to` and `from` numbers. In the US and Canada, this typically means adding +1 to the beginning of your 10-digit phone number.  
+* The webhook URLs for this message are taken from the messaging profile. If you want to override them, use the `webhook_url` and `webhook_failover_url` request fields.
+
+### Send MMS
+For MMS messages, the structure of the send request differs, in order to accommodate different types of media
+
+Send a message with an image URL:
+curl -X POST "https://api.telnyx.com/v2/messages" -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_API_KEY" -d '{  
+  "from": "+13125550001",  
+  "to": "+13129450002",  
+  "subject": "Picture",  
+  "text": "Hello, world!",  
+  "media_urls" : [  
+    "https://picsum.photos/500.jpg"  
+  ]  
+}'
+
+note  
+* The `from` number here must be MMS enabled.  
+* Passing an empty array to the `media_urls` parameter will result in the message being sent as an MMS without any media content – the message will still contain a subject and/or text content.  
+* Media URLs must be publicly accessible.  
+* While the `subject` parameter can be included in your request as shown in the example, this field is not returned in the API response. The subject field only applies to MMS messages, and when provided, the subject will be sent instead of the text content.
+
+2. Replace the `from` number with your Telnyx number. Be sure to remove any delimiters like dashes or spaces.  
+3. Replace the `to` number with the number you want to send a message to. Make sure you’re using the full +E.164 formatted number. In the US and Canada, this typically means adding +1 to the beginning of your 10-digit phone number.  
+4. Run the updated command.
+
+That’s it! Congrats on sending your first message with your Telnyx Account.
+
+Next, learn how to receive messages.
+
+Need help?  
+* Support Center  
+* Slack community  
+* Contact us 
