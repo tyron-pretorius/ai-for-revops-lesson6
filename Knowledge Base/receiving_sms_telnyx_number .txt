@@ -1,0 +1,27 @@
+Receiving SMS on your Telnyx number
+
+Prerequisites for Receiving SMS
+Make sure you've configured your account, such as purchasing a number, creating a messaging profile, and associating that messaging profile with that number.
+
+Receiving SMS on Telnyx
+First of all, there is no provision on the Telnyx portal where you can receive the SMS.
+In order to receive SMS on your Telnyx purchased number, you need to attach a webhook to the number's respective messaging profile.
+
+So let's take this example DID which is connected to a Telnyx messaging profile.
+
+Now, in the messaging profile section, you need to attach a webhook, as highlighted in the green box. To do this, go to Messaging > Programmable Messaging, select the messaging profile, and then select Inbound.
+
+Webhook can be customized and has to be set up by the customer, however, for this demo, we have generated a webhook from this website https://webhook.site/
+
+Once the webhook is saved in the messaging profile, the content of your incoming SMS to Telnyx number can be seen in the webhook.
+
+Video demo showing how to receive SMS on your Telnyx Number
+
+Kudos! now you know how to receive SMS on your Telnyx number.
+
+Learn how to receive SMS on your Telnyx number.
+
+More details: What are webhook?
+And for specific error codes here:
+
+Did this answer your question?
